@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>WHERE WE MET</title>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ovo&display=swap" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+    rel="stylesheet" /> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/greatvibes/v9/RWmMoKWR9v4ksMfaWd_JN-XC.ttf" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ovo/v10/yYLl0h7Wyfzjy4QF1eGkszpm.ttf" as="font" crossorigin>
+
+</head>
+
+<body>
+
+  <!-- navbar -->
+  <nav class="navbar">
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+      </i>Make Your Map
+    </div>
+
+
+    <div class="navbar_content">
+      <i class="bi bi-grid"></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+    </div>
+  </nav>
+
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dahsboard"></div>
+
+        <!-- start -->
+        <li class="item">
+          <div href="#" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-map"></i>
+            </span>
+            <span class="navlink">Place</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+          <ul class="menu_items submenu">
+            <div class="tabcontent">
+              <p class="search text-lg font-semibold mb-4" style="color: #007bff;">
+                <i class="fas fa-search mr-2" style="color: #007bff;"></i> Search a Place
+              </p>
+              <div class="search-container">
+                <input type="text" id="searchinput1"
+                  class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                  placeholder="Enter your text here..." style="font-size: 13px;">
+             
+              </div>
+              
+              <div id="suggestions-container" class="bg-white shadow-lg rounded-lg mt-2 absolute z-10 w-full max-h-60 overflow-y-auto divide-y divide-gray-300">
+              
+              </div>
+
+              <p class="placetext">The interactive map allows zooming and dragging to adjust the view.
+
+
+
+
+
+              </p>
+            </div>
+          </ul>
+        </li>
+
+        <li class="item">
+          <div href="#" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-palette"></i>
+            </span>
+            <span class="navlink">Theme</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+          <ul class="menu_items submenu">
+            <div class="tabcontent">
+
+
+              <p class="search text-base font-semibold mb-4">
+                <i class="fas fa-palette mr-2" style="color: #ff5733;"></i> Colors
+              </p>
+
+              <div class="colorBox">
+                <div class="square" style="left: 5px;">
+                  <div class="circle black" id="circle1"></div>
+                </div>
+
+                <div class="square" style="left: 45px; background-color:white;">
+                  <div class="circle custom" id="circle2"></div>
+                </div>
+
+                <div class="square" style="left: 85px; background-color: rgb(47,69,80,255);">
+                  <div class="circle white" id="circle3"></div>
+                </div>
+
+                <div class="square" style="left: 125px; background-color:rgba(37,53,61,255);">
+                  <div class="circle custom2" id="circle4"></div>
+                </div>
+
+
+                <div class="square" style="left: 5px;top: 50px; background-color:rgba(171,186,181,255);">
+                  <div class="circle theme5" id="circle5"></div>
+                </div>
+
+
+                <div class="square" style="left: 45px;top: 50px; background-color:rgba(22,75,96,255);">
+                  <div class="circle theme6" id="circle6"></div>
+                </div>
+
+
+
+                <div class="square" style="left: 85px;top: 50px; background-color:rgba(234,227,215,255);">
+                  <div class="circle theme7" id="circle7"></div>
+                </div>
+
+
+
+
+
+
+              </div>
+
+              <div class="mapshapecontainer">
+                <p class="search text-base font-semibold mb-4">
+                  <i class="fas fa-map mr-2" style="color: #007bff;"></i> Map Shape
+                </p>
+              </div>
+
+              <div class="wrapper">
+
+                <div class="shape-container">
+                  <div class="style-item shape-heart selected" onclick="switchShape('heart')">
+                
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                      <path fill="#000000"
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="shape-container">
+                  <div class="style-item shape-circle" onclick="switchShape('circle')">
+           
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                      <circle cx="12" cy="12" r="10" fill="#000000" /> <!-- Circle SVG path -->
+                    </svg>
+                  </div>
+                </div>
+
+
+                <div class="shape-container">
+                  <div class="style-item shape-rectangle selected" onclick="switchShape('square')">
+         
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      width="24px" height="24px" viewBox="0 0 24 24">
+                      <g transform="translate(0, 0)">
+                        <rect x="1" y="1" width="30" height="30" rx="1" ry="1" fill="#000000"></rect>
+                      </g>
+                    </svg>
+
+                  </div>
+                </div>
+
+
+
+                <div class="shape-container">
+                  <div class="style-item shape-heart1 selected" id="heartShape">
+                  
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      width="32px" height="32px" viewBox="0 0 32 32">
+                      <g transform="translate(0, 0)">
+                        <path fill="#000000"
+                          d="M16.7,1.3c-0.4-0.4-1-0.4-1.4,0C14.8,1.8,4,12.8,4,20c0,7.5,6.1,12,12,12s12-4.5,12-12 C28,12.8,17.2,1.8,16.7,1.3z">
+                        </path>
+                      </g>
+                    </svg>
+
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              <div class="markershape">
+
+                <p class="search text-base font-semibold mb-2">
+                  <i class="fas fa-street-view mr-2 text-pink-600"></i> Marker Shape
+                </p>
+              </div>
+
+              <div class="wrapper">
+                <div class="marker1" onclick="handleMarkerClick('heart')">
+      
+                  <img src="heart.svg" alt="Heart SVG">
+
+                </div>
+
+                <div class="marker1" onclick="handleMarkerClick('heart3')">
+ 
+                   <img src="heart3.svg" alt="Heart SVG">
+
+                </div>
+
+                <div class="marker1" onclick="handleMarkerClick('house')">
+             
+                   <img src="house.svg" alt="Heart SVG">
+
+                </div>
+
+                <div class="marker1" onclick="handleMarkerClick('pin3')">
+
+                   <img src="pin3.svg" alt="Heart SVG">
+
+                </div>
+              </div>
+
+              <div class="markercolor">
+                <p class="search text-base font-semibold mb-2">
+                  <i class="fas fa-paint-brush mr-2 text-purple-700"></i> Marker Color
+                </p>
+              </div>
+
+
+              <div class="wrapper1">
+                <div class="box box1" onclick="handleBoxClick('box1')"></div>
+                <div class="box box2" onclick="handleBoxClick('box2')"></div>
+              </div>
+
+          </ul>
+        </li>
+
+        <li class="item">
+          <div href="#" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-font"></i>
+            </span>
+            <span class="navlink">Text</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+          <ul class="menu_items submenu">
+
+            <div class="tabcontent1">
+              <div class="inputcontainer" id="">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Headline (optional)
+                </p>
+                <input id='textinput' type="text"
+                  class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                  value="Where it all began..." style="font-size: 13px;">
+
+              </div>
+
+
+              <div class="inputcontainer">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Names
+                </p>
+                <input id='textinput' type="text"
+                  class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                  value="William & Jessica" style="font-size: 13px;">
+
+              </div>
+
+
+              <div class="inputcontainer">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Date
+                </p>
+                <input id='textinput' type="text"
+                  class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                  value="April 25, 2022" style="font-size: 13px;">
+
+              </div>
+
+
+              <div class="inputcontainer">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Address
+                </p>
+                <input id='textinput' type="text"
+                  class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                  value="1 Avenue du Général Leclerc, Paris, France" style="font-size: 13px;">
+
+              </div>
+
+              <div class="inputcontainer">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Legend
+                </p>
+                <div class="input-with-icon">
+                  <input id='textinput' type="text"
+                    class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-500 w-full text-sm"
+                    value="48.833°N / 2.332°E" style="font-size: 13px;">
+                  <i class="icon fas fa-map-marker-alt"></i> 
+                </div>
+              </div>
+
+
+            </div>
+
+          </ul>
+        </li>
+
+        <li class="item">
+          <div href="#" class="nav_link submenu_item">
+            <span class="navlink_icon">
+              <i class="bx bx-font-size"></i> 
+            </span>
+            <span class="navlink">Format and Size</span>
+            <i class="bx bx-chevron-right arrow-left"></i>
+          </div>
+          <ul class="menu_items submenu">
+            <div class="tabcontent">
+
+              <p class="search text-base font-semibold mb-4">
+                Format
+              </p>
+
+              <div class="container">
+                <div class="option1">
+                  <div class="formatcontainer" onclick="showPrintedContent()">
+                    <img src="printed.jpg" alt="Printed Poster">
+                  </div>
+                  <div class="textformat">
+                    <h2>Printed<br>poster</h2>
+                  </div>
+                </div>
+                <div class="option2">
+                  <div class="formatcontainer" onclick="showDigitalContent()">
+                    <img src="digital-file.svg" alt="Digital File SVG">
+                  </div>
+                  <div class="textformat">
+                    <h2>Digital File</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="printed-poster-content">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Size
+                </p>
+
+                <div class="box-container">
+                  <div class="boxposter boxposter1" onclick="selectBox(1)">
+
+                    <div class="preview-container">
+                      <div class="size-preview">
+
+                      </div>
+                    </div>
+
+                    <div class="text-container">
+                      <p class="size-text">21x30cm</p>
+                      <p class="size-text">8x12'</p>
+                    </div>
+
+
+
+                  </div>
+
+                  <div class="boxposter boxposter2" onclick="selectBox(2)">
+
+                    <div class="preview-container">
+                      <div class="size-preview1">
+
+                      </div>
+                    </div>
+
+                    <div class="text-container">
+                      <p class="size-text">30x40cm</p>
+                      <p class="size-text">12x16'</p>
+                    </div>
+
+
+
+                  </div>
+
+
+
+                </div>
+
+
+              </div>
+
+
+
+              <div class="digital-file-content" style="display: none;">
+                <p class="text-sm font-semibold text-gray-800 mb-2">
+                  Size
+                </p>
+
+                <div class="boxposter">
+
+                  <div class="preview-container">
+                    <div class="size-preview">
+                      <p class="preview-text">PDF</p>
+                    </div>
+                  </div>
+
+                  <div class="text-container">
+                    <p class="size-text">21x30cm</p>
+                    <p class="size-text">8x12'</p>
+                  </div>
+
+
+
+                </div>
+
+              </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </ul>
+        </li>
+    
+
+
+
+      </ul>
+
+
+
+
+      <div class="bottom_content">
+        <div class="bottom expand_sidebar">
+          <span> Expand</span>
+          <i class='bx bx-log-in'></i>
+        </div>
+        <div class="bottom collapse_sidebar">
+          <span> Collapse</span>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <div class="map-outer-frame">
+
+
+
+    <div id="map-container">
+
+      <div id="map"></div>
+      <canvas id="custom-canvas"></canvas>
+
+    </div>
+
+
+    <div class="credits-label">
+      <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>
+      <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>
+      <a href="https://www.mapbox.com/map-feedback/" target="_blank" class="ng-binding">Improve this map</a>
+     
+    </div>
+
+
+    <div class="flower-image"></div> 
+   
+  </div>
+ 
+  <button onclick="exportToImage()">Export Image</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="script.js"></script>
+
+</body> 
+
+</html>
